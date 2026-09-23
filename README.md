@@ -1,5 +1,7 @@
 # 🚦 Korrelierte Gleichgewichte – wenn ein Vermittler nur Empfehlungen ausspricht
 
+**[→ Demo live ausprobieren](https://sebastianhanisch-korreliert-demo.streamlit.app/)**
+
 Fünftes Stück der **Spieltheorie-&-Mechanism-Design-Linie** der "Konzepte"-Reihe im Portfolio von
 [Sebastian Hanisch](https://sebastianhanisch.net) – Operations Research und Machine Learning. Nachfolger von
 [noregret-demo](https://sebastianhanisch-noregret-demo.streamlit.app/): dort hieß kleiner Regret "grobes korreliertes Gleichgewicht" – hier die stärkere Bedingung, bei der jeder Lkw seine
