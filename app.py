@@ -153,7 +153,7 @@ st.caption(f"{C.MEDIATOR_N} Lkw, {C.MEDIATOR_M} Tore, {len(C.MEDIATOR_SEEDS)} fe
 if st.button("Vermittler berechnen (dauert etwa 5 Sekunden)", key="mediator_start"):
     st.session_state["mediator_on"] = True
 if st.session_state.get("mediator_on"):
-    with st.spinner("Rechne 240 lineare Programme..."):
+    with st.spinner("Rechne 480 lineare Programme..."):
         res_m, res_u = _mediator()
     st.plotly_chart(build_mediator_experiment(res_m, res_u), width="stretch", key="mediator_chart")
     st.warning(
@@ -240,7 +240,7 @@ if len(pure) >= 2 and mixed is not None:
     st.caption("Zwei Lkw, die sich aus dem Weg gehen wollen, haben zwei reine Gleichgewichte - in jedem wartet ein Lkw länger - und ein gemischtes, in dem beide zu oft am selben Tor landen. Die Ampel wechselt die beiden "
                "reinen Gleichgewichte ab: jeder wartet im Mittel weniger als im gemischten Gleichgewicht, und beide gleich lang. Sie kann nichts erzwingen, aber folgen lohnt für beide.")
 else:
-    st.caption("Ab δ ≥ 2 ist Tor A für beide die bessere Wahl, egal was der andere tut: es bleibt ein einziges Gleichgewicht und die Ampel hat nichts zu koordinieren.")
+    st.caption("Ab δ > 2 ist Tor A für beide die bessere Wahl, egal was der andere tut: es bleibt ein einziges Gleichgewicht und die Ampel hat nichts zu koordinieren. Bei δ = 2 genau ist Tor A nur noch gleich gut, wenn der andere Tor A nimmt (drei reine Gleichgewichte, kein gemischtes).")
 
 st.markdown("---")
 
@@ -288,6 +288,6 @@ Implementiert in `kor_ce.py` (LP mit `scipy.optimize.linprog`), `kor_learning.py
 st.markdown("---")
 st.caption(
     "Diese Demo ist Teil des Portfolios von [Sebastian Hanisch](https://sebastianhanisch.net) – "
-    "Operations Research und Machine Learning. Interesse an einer maßgeschneiderten Lösung für "
-    "Ihr Unternehmen? [Kontakt aufnehmen](https://sebastianhanisch.net/kontakt.html)"
+    "Operations Research und Machine Learning ([Über mich](https://sebastianhanisch.net/ueber-mich.html)). "
+    "Mehr zur Reihe: [Spieltheorie: von Nash bis Myerson-Satterthwaite](https://sebastianhanisch.net/konzepte-spieltheorie.html)."
 )

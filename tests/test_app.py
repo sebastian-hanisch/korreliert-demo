@@ -96,7 +96,7 @@ def test_mini_game_shows_the_ampel_and_the_dominant_case():
     assert any("Gerechte Ampel" in m.value for m in at.markdown)
     at = _run(delta_slider=3.0)
     _ok(at)
-    assert any("Ab δ ≥ 2" in c.value for c in at.caption)
+    assert any("Ab δ > 2" in c.value for c in at.caption)
 
 
 def test_mediator_experiment_runs_on_demand(monkeypatch):
