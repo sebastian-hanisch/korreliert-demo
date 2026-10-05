@@ -38,6 +38,12 @@ class Learning:
         return self.own.sum(axis=1)
 
 
+def _softmax(S):
+    """Gewichte proportional zu exp(S_h), stabil über das Maximum; Gewichte unter dem Gleitkomma-Minimum werden exakt 0 (keine künstliche Untergrenze)."""
+    e = np.exp(S - S.max(axis=1, keepdims=True))
+    return e / e.sum(axis=1, keepdims=True)
+
+
 def _sample(rng, Q):
     return np.minimum((rng.random(len(Q))[:, None] > np.cumsum(Q, axis=1)).sum(axis=1), Q.shape[1] - 1)
 
@@ -50,7 +56,8 @@ def run_learning(inst, method="rm", T=3000, seed=0, eta=C.HEDGE_ETA, mu_factor=C
     cmax = normalizer(inst)
     rows = np.arange(n)
     mu = mu_factor * (m - 1) * cmax
-    P = np.full((n, m), 1.0 / m)
+    S = np.zeros((n, m))            # Hedge: Log-Gewichte (Summe von -eta * Verlust), exakt ohne Untergrenze
+    P = _softmax(S)
     D = np.zeros((n, m, m))
     prev = None
     assign, own, cf = np.empty((T, n), dtype=np.int64), np.empty((T, n)), np.empty((T, n, m))
@@ -73,9 +80,8 @@ def run_learning(inst, method="rm", T=3000, seed=0, eta=C.HEDGE_ETA, mu_factor=C
         if method == "rm":
             D[rows, g, :] += own[t][:, None] - cost
         else:
-            P = P * np.exp(-eta * cost / cmax)
-            P = np.maximum(P / P.sum(axis=1, keepdims=True), 1e-12)
-            P /= P.sum(axis=1, keepdims=True)
+            S = S - eta * cost / cmax
+            P = _softmax(S)
     return Learning(method, T, assign, own, cf, switches, Q_hist)
 
 
